@@ -1,6 +1,8 @@
 package com.example.musicapp;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -16,6 +18,7 @@ private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("lifecycle method", "onCreate has been called");
 
      binding = ActivityMainBinding.inflate(getLayoutInflater());
      setContentView(binding.getRoot());
@@ -29,6 +32,36 @@ private ActivityMainBinding binding;
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.i("lifecycle method", "onStart has been called");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("lifecycle method", "onResume has been called");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i("lifecycle method", "onPause has been called");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i("lifecycle method", "onStop has been called");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("lifecycle method", "onDestroy has been called");
     }
 
 }
