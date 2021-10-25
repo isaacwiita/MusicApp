@@ -8,15 +8,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.musicapp.R;
 
 public class ListenFragment extends Fragment {
 
     private ListenViewModel mViewModel;
+    private Button testButton;
 
     public static ListenFragment newInstance() {
         return new ListenFragment();
@@ -25,7 +28,16 @@ public class ListenFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_listen, container, false);
+        View v = inflater.inflate(R.layout.fragment_listen, container, false);
+        testButton = v.findViewById(R.id.test_button);
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("test", "test button clicked");
+            }
+        });
+
+        return v;
     }
 
     @Override
