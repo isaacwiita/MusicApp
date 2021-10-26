@@ -24,7 +24,7 @@ public class ListenViewModel extends ViewModel {
     public ListenViewModel() {
         mTestValue = new MutableLiveData<>();
         mDatabase = FirebaseReadWrite.FirebaseReadWrite(); //singleton class so don't need to call constructor.
-        mDatabase.getCounterData(mTestValue); //gets counter data and stores it in mTestValue.
+        mDatabase.getIntegerData(TEST_PATH, COUNTER_ATTRIBUTE, mTestValue); //gets counter data and stores it in mTestValue.
 
     }
 

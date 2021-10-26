@@ -31,13 +31,12 @@ public class FirebaseReadWrite {
         return single_instance;
     }
 
-    //Get counter data and store it in mTestValue.
-    public void getCounterData(MutableLiveData<Integer> mTestValue){
-        this.mDatabase.child("test").addValueEventListener(new ValueEventListener() {
+    //Get int data based on precise path and attribute info and store into mTestValue.
+    public void getIntegerData(String path, String attribute, MutableLiveData<Integer> mTestValue){
+        this.mDatabase.child(path).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int counter = Integer.parseInt(snapshot.child("counter").getValue().toString());
-                mTestValue.setValue(counter);
+                mTestValue.setValue(Integer.parseInt(snapshot.child(attribute).getValue().toString()));
                 Log.d(FB_TAG, "Read Value: " + mTestValue.getValue().toString());
             }
 
