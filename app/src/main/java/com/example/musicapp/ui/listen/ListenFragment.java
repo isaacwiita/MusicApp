@@ -40,7 +40,7 @@ public class ListenFragment extends Fragment {
         listenViewModel.getTestValue().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer i) {
-                testTextView.setText(i.toString());
+                testTextView.setText("Count: " + i.toString());
             }
         });
 
