@@ -51,7 +51,6 @@ public class ListenFragment extends Fragment {
                 listenViewModel.incrementTestValue();
             }
         });
-
         return v;
     }
 
