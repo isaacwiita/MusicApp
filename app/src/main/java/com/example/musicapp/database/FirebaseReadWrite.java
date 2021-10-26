@@ -61,10 +61,5 @@ public class FirebaseReadWrite {
             }
         });
     }
-
-    public DatabaseReference getReference(){
-        return this.mDatabase;
-    }
-
     //further development ...
 }
