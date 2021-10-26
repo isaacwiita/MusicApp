@@ -33,7 +33,7 @@ public class FirebaseReadWrite {
 
     //Get int data based on precise path and attribute info and store into mTestValue.
     public void getIntegerData(String path, String attribute, MutableLiveData<Integer> mTestValue){
-        this.mDatabase.child(path).addValueEventListener(new ValueEventListener() {
+        this.mDatabase.child(path).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mTestValue.setValue(Integer.parseInt(snapshot.child(attribute).getValue().toString()));
