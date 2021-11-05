@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.musicapp.models.Song;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -13,8 +14,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
 //singleton class for database access
 public class FirebaseReadWrite {
+
+    private final String NAME_KEY = "name";
+    private final String ARTIST_KEY = "artist";
+    private final String URL_KEY = "url";
+
     private static FirebaseReadWrite single_instance = null;
     private DatabaseReference mDatabase;
     final private String FB_TAG = "FirebaseDatabase";
@@ -38,6 +48,29 @@ public class FirebaseReadWrite {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mTestValue.setValue(Integer.parseInt(snapshot.child(attribute).getValue().toString()));
                 Log.d(FB_TAG, "Read Value: " + mTestValue.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(FB_TAG, "Failed to get Value");
+            }
+        });
+    }
+
+    //Get int data based on precise path and attribute info and store into mTestValue.
+    public void getSongListData(String path, String attribute, MutableLiveData<List<Song>> mSongsList){
+        this.mDatabase.child(path).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<Song> songs = new ArrayList<>();
+                for (int x = 0; x < snapshot.getChildrenCount(); x++) {
+                    String name = snapshot.child(String.valueOf(x)).child(NAME_KEY).getValue(String.class);
+                    String artistName = snapshot.child(String.valueOf(x)).child(ARTIST_KEY).getValue(String.class);
+                    String url = snapshot.child(String.valueOf(x)).child(URL_KEY).getValue(String.class);
+                    songs.add(new Song(name, artistName, url));
+                }
+                mSongsList.setValue(songs);
+                Log.d(FB_TAG, "Read Value: " + mSongsList.getValue().toString());
             }
 
             @Override
