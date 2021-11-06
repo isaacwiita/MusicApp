@@ -9,6 +9,8 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2560790273556231" />
         <entry key="app/src/main/res/layout/fragment_listen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.2545289855072464" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.2318840579710145" />
+        <entry key="app/src/main/res/layout/playlist_row.xml" value="0.2726449275362319" />
         <entry key="app/src/main/res/layout/settings_fragment.xml" value="0.2798913043478261" />
         <entry key="app/src/main/res/layout/song_row.xml" value="0.27239583333333334" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.3125" />

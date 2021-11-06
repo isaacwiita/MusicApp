@@ -61,7 +61,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
 
         ViewHolder(View songView) {
             super(songView);
-            nameTextView = songView.findViewById(R.id.name_text);
+            nameTextView = songView.findViewById(R.id.playlist_name_text);
             artistTextView = songView.findViewById(R.id.artist_text);
             songButton = songView.findViewById(R.id.song_button);
             songButton.setOnClickListener(new View.OnClickListener() {
