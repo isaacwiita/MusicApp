@@ -26,6 +26,9 @@ public class FirebaseReadWrite {
     private final String SONG_ARTIST_KEY = "artist";
     private final String SONG_URL_KEY = "url";
 
+    private final String LIKED_SONGS_ATTRIBUTE_NAME = "liked_songs";
+    private final String DISLIKED_SONGS_ATTRIBUTE_NAME = "disliked_songs";
+
     private final String PLAYLIST_ATTRIBUTE_NAME = "playlist";
     private final String PLAYLIST_NAME_KEY = "name";
     private final String PLAYLIST_URL_KEY = "url";
@@ -60,6 +63,14 @@ public class FirebaseReadWrite {
                 Log.d(FB_TAG, "Failed to get Value");
             }
         });
+    }
+
+    // TODO: implement. look at using childByAutoId
+    public void userLikeSong(String userId, Song song){
+    }
+
+    // TODO: implement. look at using childByAutoId
+    public void userDislikeSong(String userId, Song song){
     }
 
     // get songs list
