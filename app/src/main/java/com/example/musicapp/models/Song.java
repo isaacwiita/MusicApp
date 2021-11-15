@@ -1,13 +1,13 @@
 package com.example.musicapp.models;
 
 public class Song {
-    private String name;
-    private String artistName;
-    private String url;
+    public String name;
+    public String artist;
+    public String url;
 
     public Song(String name, String artistName, String url) {
         this.name = name;
-        this.artistName = artistName;
+        this.artist = artistName;
         this.url = url;
     }
 
@@ -16,7 +16,7 @@ public class Song {
     }
 
     public String getArtistName() {
-        return artistName;
+        return artist;
     }
 
     public String getUrl() {
