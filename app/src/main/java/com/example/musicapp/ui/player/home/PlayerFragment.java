@@ -87,7 +87,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
                 playerViewModel.dislikeCurrentSong();
                 Song song1 = playerViewModel.getNextSong();
                 songNameText.setText(song1.getName() + "\n" + song1.getArtist());
-                this.spotify.connectUserSpotify(getContext(), song.getUrl());
+                this.spotify.connectUserSpotify(getContext(), song1.getUrl());
                 break;
             default:
                 break;
