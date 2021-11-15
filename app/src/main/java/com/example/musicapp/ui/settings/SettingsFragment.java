@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.musicapp.MainActivity;
 import com.example.musicapp.R;
@@ -45,6 +46,7 @@ public class SettingsFragment extends Fragment {
     boolean loaded;
     private FirebaseReadWrite database;
     private SpotifyWrapper spotify;
+    private TextView loggedInText;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -61,11 +63,15 @@ public class SettingsFragment extends Fragment {
         mPlaylist.observe(getViewLifecycleOwner(), playlistUpdateObserver);
 
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
+
         playlistSpinner = v.findViewById(R.id.playlist_spinner);
         logout = v.findViewById(R.id.logout);
         playlistList = new ArrayList<>();
 
         this.database = FirebaseReadWrite.FirebaseReadWrite();
+
+        loggedInText = v.findViewById(R.id.logged_in_text);
+        loggedInText.setText("Logged in as: " + database.getUser().getEmail());
 
         // TODO: get spotify playlists here
         playlistList.add( new Playlist("rap", "url1"));
