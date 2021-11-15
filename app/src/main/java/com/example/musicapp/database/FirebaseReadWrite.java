@@ -93,7 +93,7 @@ public class FirebaseReadWrite {
 
     // get songs list
     public void getSongListOfUser(String userId, MutableLiveData<List<Song>> mSongsList){
-        this.mDatabase.child(getUserPathTo(userId, SONGS_ATTRIBUTE_NAME)).addValueEventListener(new ValueEventListener() {
+        this.mDatabase.child(getUserPathTo(SONGS_ATTRIBUTE_NAME)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Song> songs = new ArrayList<>();
@@ -116,9 +116,9 @@ public class FirebaseReadWrite {
 
     // get playlist
     //Get int data based on precise path and attribute info and store into mTestValue.
-    public void getPlaylistOfUser(String userId, MutableLiveData<Playlist> mPlaylist){
-        Log.d(FB_TAG, getUserPathTo(userId, PLAYLIST_ATTRIBUTE_NAME));
-        this.mDatabase.child(getUserPathTo(userId, PLAYLIST_ATTRIBUTE_NAME)).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void getPlaylistOfUser(MutableLiveData<Playlist> mPlaylist){
+        Log.d(FB_TAG, getUserPathTo(PLAYLIST_ATTRIBUTE_NAME));
+        this.mDatabase.child(getUserPathTo(PLAYLIST_ATTRIBUTE_NAME)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String name = snapshot.child(PLAYLIST_NAME_KEY).getValue().toString();
@@ -136,8 +136,8 @@ public class FirebaseReadWrite {
     }
 
     //used to update the database. Requires precise path and value information.
-    public void updatePlaylistOfUser(String userId, Playlist p){
-        mDatabase.child(getUserPathTo(userId, PLAYLIST_ATTRIBUTE_NAME + "/" + PLAYLIST_URL_KEY)).setValue(p.getUrl()).addOnSuccessListener(new OnSuccessListener<Void>() {
+    public void updatePlaylistOfUser(Playlist p){
+        mDatabase.child(getUserPathTo(PLAYLIST_ATTRIBUTE_NAME + "/" + PLAYLIST_URL_KEY)).setValue(p.getUrl()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Log.d(FB_TAG, "Playlist URL updated successfully to " + p.getUrl());
@@ -148,7 +148,7 @@ public class FirebaseReadWrite {
                 Log.d(FB_TAG, "Playlist URL upload failed");
             }
         });
-        mDatabase.child(getUserPathTo(userId, PLAYLIST_ATTRIBUTE_NAME + "/" + PLAYLIST_NAME_KEY)).setValue(p.getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
+        mDatabase.child(getUserPathTo(PLAYLIST_ATTRIBUTE_NAME + "/" + PLAYLIST_NAME_KEY)).setValue(p.getName()).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 Log.d(FB_TAG, "Playlist name updated successfully to " + p.getName());
@@ -176,8 +176,8 @@ public class FirebaseReadWrite {
         });
     }
 
-    private String getUserPathTo(String userId, String userAttributeName) {
-        return "users/" + userId + "/" + userAttributeName;
+    private String getUserPathTo(String userAttributeName) {
+        return "users/" + this.getUid() + "/" + userAttributeName;
     }
 
     public FirebaseAuth getAuth(){

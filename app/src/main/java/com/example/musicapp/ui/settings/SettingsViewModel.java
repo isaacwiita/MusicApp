@@ -16,13 +16,11 @@ public class SettingsViewModel extends ViewModel {
     private MutableLiveData<Playlist> mPlaylist;
 
     private FirebaseReadWrite mDatabase;
-    private DatabaseReference ref;
-    final private String ISAAC_ID = "3";
 
     public SettingsViewModel() {
         mPlaylist = new MutableLiveData<>();
         mDatabase = FirebaseReadWrite.FirebaseReadWrite(); //singleton class so don't need to call constructor.
-        mDatabase.getPlaylistOfUser(ISAAC_ID, mPlaylist); //gets counter data and stores it in mTestValue.
+        mDatabase.getPlaylistOfUser(mPlaylist); //gets counter data and stores it in mTestValue.
     }
 
     public MutableLiveData<Playlist> getPlaylistLiveData() {
@@ -30,7 +28,7 @@ public class SettingsViewModel extends ViewModel {
     }
 
     public void updatePlaylist(Playlist p) {
-        mDatabase.updatePlaylistOfUser(ISAAC_ID, p);
+        mDatabase.updatePlaylistOfUser(p);
         mPlaylist.setValue(p);
     }
 
