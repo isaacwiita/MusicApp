@@ -1,5 +1,7 @@
 package com.example.musicapp.ui.player.home;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -107,7 +109,8 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
                 Toast.makeText(this.getContext(), "pause button", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.spotify_button:
-                Toast.makeText(this.getContext(), "spotify button", Toast.LENGTH_SHORT).show();
+                Intent launcher = new Intent(Intent.ACTION_VIEW, Uri.parse(playerViewModel.getCurrentSong().getUrl()));
+                getContext().startActivity(launcher);
                 break;
             default:
                 break;

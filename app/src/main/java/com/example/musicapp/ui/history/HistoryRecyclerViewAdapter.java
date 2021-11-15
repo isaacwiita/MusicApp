@@ -1,6 +1,11 @@
 package com.example.musicapp.ui.history;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +72,8 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
             songButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(songView.getContext(), "play " + nameTextView.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Intent launcher = new Intent(Intent.ACTION_VIEW, Uri.parse(mSongs.get(getAdapterPosition()).getUrl()));
+                    songButton.getContext().startActivity(launcher);
                 }
             });
         }
