@@ -39,7 +39,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
 
         songNameText = v.findViewById(R.id.song_name_text);
         Song s = playerViewModel.getCurrentSong();
-        songNameText.setText(s.getName() + "\n" + s.getArtistName());
+        songNameText.setText(s.getName() + "\n" + s.getArtist());
 
         likeButton = v.findViewById(R.id.like_button);
         likeButton.setOnClickListener(this);
@@ -80,7 +80,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
             case R.id.like_button:
                 playerViewModel.likeCurrentSong();
                 Song song = playerViewModel.getNextSong();
-                songNameText.setText(song.getName() + "\n" + song.getArtistName());
+                songNameText.setText(song.getName() + "\n" + song.getArtist());
                 this.spotify.connectUserSpotify(getContext(), song.getUrl());
                 break;
             case R.id.dislike_button:

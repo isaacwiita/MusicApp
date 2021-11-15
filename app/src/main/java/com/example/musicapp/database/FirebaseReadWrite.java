@@ -88,7 +88,8 @@ public class FirebaseReadWrite {
 
     public void userLikeSong(Song song) {
         Map<String, Object> songs = new HashMap<>();
-        songs.put(mDatabase.getDatabase().getReference().push().getKey(), song);
+        String songId = song.getUrl().substring(song.getUrl().lastIndexOf(":") + 1);
+        songs.put(songId, song);
         Log.d(FB_TAG, songs.toString());
         this.mDatabase.child(getUserPathTo(SONGS_ATTRIBUTE_NAME)).updateChildren(songs).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
