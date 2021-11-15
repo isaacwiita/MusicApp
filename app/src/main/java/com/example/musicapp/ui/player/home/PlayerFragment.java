@@ -1,21 +1,22 @@
 package com.example.musicapp.ui.player.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.musicapp.LoginActivity;
 import com.example.musicapp.R;
 import com.example.musicapp.models.Song;
 import com.example.musicapp.spotify.SpotifyWrapper;
-import com.example.musicapp.ui.settings.SettingsFragment;
 
 public class PlayerFragment extends Fragment implements View.OnClickListener {
 
@@ -24,6 +25,9 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
     private TextView songNameText;
     private Button likeButton;
     private Button dislikeButton;
+    private Button playButton;
+    private Button pauseButton;
+    private Button spotifyButton;
 
     private SpotifyWrapper spotify;
 
@@ -45,6 +49,13 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
         likeButton.setOnClickListener(this);
         dislikeButton = v.findViewById(R.id.dislike_button);
         dislikeButton.setOnClickListener(this);
+
+        playButton = v.findViewById(R.id.play_button);
+        pauseButton = v.findViewById(R.id.pause_button);
+        spotifyButton = v.findViewById(R.id.spotify_button);
+        playButton.setOnClickListener(this);
+        pauseButton.setOnClickListener(this);
+        spotifyButton.setOnClickListener(this);
 
         return v;
     }
@@ -88,6 +99,15 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
                 Song song1 = playerViewModel.getNextSong();
                 songNameText.setText(song1.getName() + "\n" + song1.getArtist());
                 this.spotify.connectUserSpotify(getContext(), song1.getUrl());
+                break;
+            case R.id.play_button:
+                Toast.makeText(this.getContext(), "play button", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.pause_button:
+                Toast.makeText(this.getContext(), "pause button", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.spotify_button:
+                Toast.makeText(this.getContext(), "spotify button", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
