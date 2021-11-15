@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,12 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.musicapp.MainActivity;
 import com.example.musicapp.R;
+import com.example.musicapp.StartupActivity;
+import com.example.musicapp.database.FirebaseReadWrite;
 import com.example.musicapp.models.Playlist;
 import com.example.musicapp.models.Song;
 import com.example.musicapp.ui.history.HistoryRecyclerViewAdapter;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +38,11 @@ public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
     private Spinner playlistSpinner;
+    private Button logout;
     List<Playlist> playlistList;
     SettingsPlaylistSpinnerAdapter adapter;
     boolean loaded;
+    private FirebaseReadWrite database;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -49,7 +57,10 @@ public class SettingsFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         playlistSpinner = v.findViewById(R.id.playlist_spinner);
+        //logout = v.findViewById(R.id.logout);
         playlistList = new ArrayList<>();
+
+        this.database = FirebaseReadWrite.FirebaseReadWrite();
 
         // TODO: get spotify playlists here
         playlistList.add( new Playlist("rap", "url1"));
@@ -80,6 +91,14 @@ public class SettingsFragment extends Fragment {
                 // TODO: what goes here ?
             }
         });
+
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                database.logout();
+//                startActivity(new Intent(getActivity(), StartupActivity.class));
+//            }
+//        });
         return v;
     }
 

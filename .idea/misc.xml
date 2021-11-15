@@ -3,6 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Development/Repositories/MusicApp/app/src/main/res/layout/activity_login.xml" value="0.2453125" />
+        <entry key="..\:/Development/Repositories/MusicApp/app/src/main/res/layout/activity_login2.xml" value="0.13858695652173914" />
+        <entry key="..\:/Development/Repositories/MusicApp/app/src/main/res/layout/activity_main.xml" value="0.2453125" />
+        <entry key="..\:/Development/Repositories/MusicApp/app/src/main/res/layout/activity_register.xml" value="0.2453125" />
+        <entry key="..\:/Development/Repositories/MusicApp/app/src/main/res/layout/activity_startup.xml" value="0.2453125" />
+        <entry key="..\:/Development/Repositories/MusicApp/app/src/main/res/layout/fragment_player.xml" value="0.2453125" />
+        <entry key="..\:/Development/Repositories/MusicApp/app/src/main/res/layout/fragment_settings.xml" value="0.20364583333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.2560790273556231" />

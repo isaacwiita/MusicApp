@@ -1,14 +1,22 @@
 package com.example.musicapp.database;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.musicapp.RegisterActivity;
 import com.example.musicapp.models.Playlist;
 import com.example.musicapp.models.Song;
+import com.example.musicapp.models.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -16,7 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //singleton class for database access
 public class FirebaseReadWrite {
@@ -33,12 +43,20 @@ public class FirebaseReadWrite {
     private final String PLAYLIST_NAME_KEY = "name";
     private final String PLAYLIST_URL_KEY = "url";
 
+    private final String USERS = "users";
+
     private static FirebaseReadWrite single_instance = null;
     private DatabaseReference mDatabase;
     final private String FB_TAG = "FirebaseDatabase";
 
+    private FirebaseAuth auth;
+    private String uid;
+    private FirebaseUser user;
+
     //private constructor for singleton purposes
     private FirebaseReadWrite(){
+        this.uid = "0";
+        this.auth = FirebaseAuth.getInstance();
         this.mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
@@ -160,6 +178,48 @@ public class FirebaseReadWrite {
 
     private String getUserPathTo(String userId, String userAttributeName) {
         return "users/" + userId + "/" + userAttributeName;
+    }
+
+    public FirebaseAuth getAuth(){
+        return this.auth;
+    }
+
+    public void setUser(FirebaseUser newUser){
+        this.user = newUser;
+        setUid(this.user.getUid());
+    }
+
+    public void setUid(String id){
+        this.uid = id;
+    }
+
+    public FirebaseUser getUser(){
+        return this.user;
+    }
+
+    public String getUid(){
+        return this.uid;
+    }
+
+    public void createUser(String name){
+        Map<String, Object> users = new HashMap<>();
+        users.put(this.uid, new User(name));
+        this.mDatabase = FirebaseDatabase.getInstance().getReference();
+        this.mDatabase.child(USERS).updateChildren(users).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(FB_TAG, "Data updated successfully");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(FB_TAG, "Data upload failed");
+            }
+        });
+    }
+
+    public void logout(){
+        this.auth.signOut();
     }
 
     //further development ...
