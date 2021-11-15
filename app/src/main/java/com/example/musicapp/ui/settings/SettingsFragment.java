@@ -57,7 +57,7 @@ public class SettingsFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         playlistSpinner = v.findViewById(R.id.playlist_spinner);
-        //logout = v.findViewById(R.id.logout);
+        logout = v.findViewById(R.id.logout);
         playlistList = new ArrayList<>();
 
         this.database = FirebaseReadWrite.FirebaseReadWrite();
@@ -92,13 +92,13 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                database.logout();
-//                startActivity(new Intent(getActivity(), StartupActivity.class));
-//            }
-//        });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                database.logout();
+                startActivity(new Intent(getActivity(), StartupActivity.class));
+            }
+        });
         return v;
     }
 
