@@ -14,13 +14,11 @@ public class HistoryViewModel extends ViewModel {
     private MutableLiveData<List<Song>> mSongsList;
 
     private FirebaseReadWrite mDatabase;
-    private DatabaseReference ref;
-    final private String ISAAC_ID = "3";
 
     public HistoryViewModel() {
         mSongsList = new MutableLiveData<>();
         mDatabase = FirebaseReadWrite.FirebaseReadWrite(); //singleton class so don't need to call constructor.
-        mDatabase.getSongListOfUser(ISAAC_ID, mSongsList); //gets counter data and stores it in mTestValue.
+        mDatabase.getSongListOfUser(mSongsList); //gets counter data and stores it in mTestValue.
     }
 
     public MutableLiveData<List<Song>> getSongsListLiveData() {

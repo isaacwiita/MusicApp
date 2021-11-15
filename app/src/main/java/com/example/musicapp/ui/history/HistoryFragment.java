@@ -35,10 +35,10 @@ import java.util.List;
 public class HistoryFragment extends Fragment { //implements HistoryRecyclerViewAdapter.ItemClickListener {
 
     private HistoryViewModel historyViewModel;
-    private FragmentHistoryBinding binding;
     private RecyclerView recyclerView;
     private HistoryRecyclerViewAdapter adapter;
     private SpotifyWrapper spotify;
+    private TextView emptyText;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -59,7 +59,10 @@ public class HistoryFragment extends Fragment { //implements HistoryRecyclerView
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        binding = FragmentHistoryBinding.inflate(inflater, container, false);
+        emptyText = v.findViewById(R.id.empty_text);
+        if (adapter.getItemCount() > 0) {
+            emptyText.setVisibility(View.GONE);
+        }
 
         return v;
     }
@@ -70,6 +73,9 @@ public class HistoryFragment extends Fragment { //implements HistoryRecyclerView
             adapter = new HistoryRecyclerViewAdapter(getContext(), songs);
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             recyclerView.setAdapter(adapter);
+            if (adapter.getItemCount() > 0) {
+                emptyText.setVisibility(View.GONE);
+            }
         }
     };
 
@@ -88,7 +94,6 @@ public class HistoryFragment extends Fragment { //implements HistoryRecyclerView
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
     }
 
 //    @Override

@@ -86,7 +86,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
             case R.id.dislike_button:
                 playerViewModel.dislikeCurrentSong();
                 Song song1 = playerViewModel.getNextSong();
-                songNameText.setText(song1.getName() + "\n" + song1.getArtistName());
+                songNameText.setText(song1.getName() + "\n" + song1.getArtist());
                 break;
             default:
                 break;

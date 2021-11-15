@@ -22,8 +22,6 @@ public class PlayerViewModel extends ViewModel {
     private Song currentSong;
 
     private FirebaseReadWrite mDatabase;
-    private DatabaseReference ref;
-    final private String ISAAC_ID = "3";
 
     public PlayerViewModel() {
         mDatabase = FirebaseReadWrite.FirebaseReadWrite();
@@ -60,11 +58,11 @@ public class PlayerViewModel extends ViewModel {
     }
 
     public void likeCurrentSong() {
-        mDatabase.userLikeSong(ISAAC_ID, currentSong);
+        mDatabase.userLikeSong(currentSong);
     }
 
     public void dislikeCurrentSong() {
-        mDatabase.userDislikeSong(ISAAC_ID, currentSong);
+        mDatabase.userDislikeSong(currentSong);
     }
 
     public String getCategoryName() {
