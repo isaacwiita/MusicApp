@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
+                    database.setUser(auth.getCurrentUser());
                     Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();

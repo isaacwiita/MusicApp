@@ -187,6 +187,7 @@ public class FirebaseReadWrite {
     public void setUser(FirebaseUser newUser){
         this.user = newUser;
         setUid(this.user.getUid());
+        Log.d(FB_TAG, this.uid);
     }
 
     public void setUid(String id){
