@@ -84,15 +84,15 @@ public class FirebaseReadWrite {
     }
 
     // TODO: implement. look at using childByAutoId
-    public void userLikeSong(String userId, Song song){
+    public void userLikeSong(Song song){
     }
 
     // TODO: implement. look at using childByAutoId
-    public void userDislikeSong(String userId, Song song){
+    public void userDislikeSong(Song song){
     }
 
     // get songs list
-    public void getSongListOfUser(String userId, MutableLiveData<List<Song>> mSongsList){
+    public void getSongListOfUser(MutableLiveData<List<Song>> mSongsList){
         this.mDatabase.child(getUserPathTo(SONGS_ATTRIBUTE_NAME)).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
