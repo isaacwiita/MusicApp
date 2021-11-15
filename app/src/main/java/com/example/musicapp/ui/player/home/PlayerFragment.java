@@ -35,7 +35,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
 
         songNameText = v.findViewById(R.id.song_name_text);
         Song s = playerViewModel.getNextSong();
-        songNameText.setText(s.getName() + "\n" + s.getArtistName());
+        songNameText.setText(s.getName() + "\n" + s.getArtist());
 
         likeButton = v.findViewById(R.id.like_button);
         likeButton.setOnClickListener(this);
@@ -56,12 +56,12 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
             case R.id.like_button:
                 playerViewModel.likeCurrentSong();
                 Song song = playerViewModel.getNextSong();
-                songNameText.setText(song.getName() + "\n" + song.getArtistName());
+                songNameText.setText(song.getName() + "\n" + song.getArtist());
                 break;
             case R.id.dislike_button:
                 playerViewModel.dislikeCurrentSong();
                 Song song1 = playerViewModel.getNextSong();
-                songNameText.setText(song1.getName() + "\n" + song1.getArtistName());
+                songNameText.setText(song1.getName() + "\n" + song1.getArtist());
                 break;
             default:
                 break;

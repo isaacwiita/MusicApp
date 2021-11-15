@@ -1,5 +1,6 @@
 package com.example.musicapp.database;
 
+import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ public class FirebaseReadWrite {
 
     private final String LIKED_SONGS_ATTRIBUTE_NAME = "liked_songs";
     private final String DISLIKED_SONGS_ATTRIBUTE_NAME = "disliked_songs";
+
+//    private final String LIKED_SONGS_INDEX_NAME = "liked_index";
 
     private final String PLAYLIST_ATTRIBUTE_NAME = "playlist";
     private final String PLAYLIST_NAME_KEY = "name";
@@ -83,11 +86,38 @@ public class FirebaseReadWrite {
         });
     }
 
-    // TODO: implement. look at using childByAutoId
-    public void userLikeSong(Song song){
+    public void userLikeSong(Song song) {
+        Map<String, Object> songs = new HashMap<>();
+        songs.put(mDatabase.getDatabase().getReference().push().getKey(), song);
+        Log.d(FB_TAG, songs.toString());
+        this.mDatabase.child(getUserPathTo(SONGS_ATTRIBUTE_NAME)).updateChildren(songs).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(FB_TAG, "Song successfully liked: " + song.getName());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(FB_TAG, "Song like failed: " + song.getName());
+            }
+        });
     }
 
-    // TODO: implement. look at using childByAutoId
+    private void getSongCount(MutableLiveData<Long> mCount) {
+        this.mDatabase.child(getUserPathTo(SONGS_ATTRIBUTE_NAME)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mCount.setValue(snapshot.getChildrenCount());
+                Log.d(FB_TAG, "Read liked song count: " + mCount.getValue().toString());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d(FB_TAG, "Failed to get liked song count");
+            }
+        });
+    }
+
+    // TODO: optionally implement
     public void userDislikeSong(Song song){
     }
 
@@ -97,12 +127,16 @@ public class FirebaseReadWrite {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<Song> songs = new ArrayList<>();
-                for (int x = 0; x < snapshot.getChildrenCount(); x++) {
-                    String name = snapshot.child(String.valueOf(x)).child(SONG_NAME_KEY).getValue(String.class);
-                    String artistName = snapshot.child(String.valueOf(x)).child(SONG_ARTIST_KEY).getValue(String.class);
-                    String url = snapshot.child(String.valueOf(x)).child(SONG_URL_KEY).getValue(String.class);
-                    songs.add(new Song(name, artistName, url));
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Song s = ds.getValue(Song.class);
+                    songs.add(s);
                 }
+//                for (int x = 0; x < snapshot.getChildrenCount(); x++) {
+//                    String name = snapshot.child(String.valueOf(x)).child(SONG_NAME_KEY).getValue(String.class);
+//                    String artistName = snapshot.child(String.valueOf(x)).child(SONG_ARTIST_KEY).getValue(String.class);
+//                    String url = snapshot.child(String.valueOf(x)).child(SONG_URL_KEY).getValue(String.class);
+//                    songs.add(new Song(name, artistName, url));
+//                }
                 mSongsList.setValue(songs);
                 Log.d(FB_TAG, "Read songs: " + mSongsList.getValue().toString());
             }
@@ -117,7 +151,6 @@ public class FirebaseReadWrite {
     // get playlist
     //Get int data based on precise path and attribute info and store into mTestValue.
     public void getPlaylistOfUser(MutableLiveData<Playlist> mPlaylist){
-        Log.d(FB_TAG, getUserPathTo(PLAYLIST_ATTRIBUTE_NAME));
         this.mDatabase.child(getUserPathTo(PLAYLIST_ATTRIBUTE_NAME)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

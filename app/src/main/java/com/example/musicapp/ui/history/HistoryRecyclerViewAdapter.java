@@ -42,7 +42,7 @@ public class HistoryRecyclerViewAdapter extends RecyclerView.Adapter<HistoryRecy
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Song song = mSongs.get(position);
         holder.nameTextView.setText(song.getName());
-        holder.artistTextView.setText(song.getArtistName());
+        holder.artistTextView.setText(song.getArtist());
     }
 
     @Override
