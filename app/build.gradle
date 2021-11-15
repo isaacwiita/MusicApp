@@ -43,6 +43,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation files('libs\\spotify-app-remote-release-0.7.2.aar')
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation files('libs\\spotify-auth-release-1.2.3.aar')
     //implementation 'com.google.firebase:firebase-database:20.0.2'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

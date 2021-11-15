@@ -1,5 +1,6 @@
 package com.example.musicapp.spotify;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +11,20 @@ import com.spotify.android.appremote.api.SpotifyAppRemote;
 
 import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
+import com.spotify.protocol.types.Repeat;
 import com.spotify.protocol.types.Track;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class SpotifyWrapper {
 
     private static SpotifyWrapper single_instance = null;
     private static final String CLIENT_ID = "559ec4392ac04e89a9188f7d85c50903";
+    private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "com.example.musicapp://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
+    private String accessToken = "false";
 
     private int counter = 0;
 
@@ -37,6 +44,24 @@ public class SpotifyWrapper {
     }
 
     public void connectUserSpotify(Context context, String uri){
+        auth_lib_connection(context);
+        auth_remote_connection(context, uri);
+
+    }
+
+    private void auth_lib_connection(Context context){
+        if (this.accessToken.equals("false")) {
+            AuthorizationRequest.Builder builder =
+                    new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
+
+            builder.setScopes(new String[]{"streaming"});
+            AuthorizationRequest request = builder.build();
+
+            AuthorizationClient.openLoginActivity((Activity) context, REQUEST_CODE, request);
+        }
+    }
+
+    private void auth_remote_connection(Context context, String uri){
         if (this.mSpotifyAppRemote == null || !this.mSpotifyAppRemote.isConnected()){
             counter++;
             Log.d("SpotifyActivity", "counter: " + counter);
@@ -69,7 +94,8 @@ public class SpotifyWrapper {
     }
 
     private void connected(String uri) {
-        mSpotifyAppRemote.getPlayerApi().play(uri);
+        mSpotifyAppRemote.getPlayerApi().play(uri).await();
+        mSpotifyAppRemote.getPlayerApi().setRepeat(Repeat.ALL).await();
 
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
@@ -92,5 +118,10 @@ public class SpotifyWrapper {
         if (this.mSpotifyAppRemote != null && this.mSpotifyAppRemote.isConnected()){
             this.mSpotifyAppRemote.getPlayerApi().pause();
         }
+    }
+
+    public void setAccessToken(String newAccessToken){
+        this.accessToken = newAccessToken;
+        Log.d("SpotifyActivity", "Access Token: " + this.accessToken);
     }
 }
