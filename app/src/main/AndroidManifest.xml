@@ -27,6 +27,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+            <intent-filter>
+                <data
+                    android:scheme="com.example.musicapp"
+                    android:host="callback"/>
+            </intent-filter>
         </activity>
     </application>
 

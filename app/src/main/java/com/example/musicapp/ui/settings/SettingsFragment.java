@@ -28,6 +28,7 @@ import com.example.musicapp.StartupActivity;
 import com.example.musicapp.database.FirebaseReadWrite;
 import com.example.musicapp.models.Playlist;
 import com.example.musicapp.models.Song;
+import com.example.musicapp.spotify.SpotifyWrapper;
 import com.example.musicapp.ui.history.HistoryRecyclerViewAdapter;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -43,6 +44,7 @@ public class SettingsFragment extends Fragment {
     SettingsPlaylistSpinnerAdapter adapter;
     boolean loaded;
     private FirebaseReadWrite database;
+    private SpotifyWrapper spotify;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -51,6 +53,9 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.spotify = SpotifyWrapper.SpotifyWrapper();
+        this.spotify.pause();
+
         settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
         MutableLiveData<Playlist> mPlaylist = settingsViewModel.getPlaylistLiveData();
         mPlaylist.observe(getViewLifecycleOwner(), playlistUpdateObserver);
@@ -99,6 +104,7 @@ public class SettingsFragment extends Fragment {
                 startActivity(new Intent(getActivity(), StartupActivity.class));
             }
         });
+        Log.d("SpotifyActivity", "SettingsFragment OnCreateView");
         return v;
     }
 
@@ -119,6 +125,20 @@ public class SettingsFragment extends Fragment {
             playlistSpinner.setSelection(index);
         }
     };
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        this.spotify.pause();
+        Log.d("SpotifyActivity", "SettingsFragment OnStart");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        this.spotify.pause();
+        Log.d("SpotifyActivity", "SettingsFragment OnResume");
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

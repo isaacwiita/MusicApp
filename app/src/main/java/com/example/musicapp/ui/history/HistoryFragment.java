@@ -22,6 +22,7 @@ import com.example.musicapp.R;
 import com.example.musicapp.database.FirebaseReadWrite;
 import com.example.musicapp.databinding.FragmentHistoryBinding;
 import com.example.musicapp.models.Song;
+import com.example.musicapp.spotify.SpotifyWrapper;
 import com.google.api.ResourceDescriptor;
 import com.google.firebase.database.DatabaseReference;
 
@@ -37,8 +38,13 @@ public class HistoryFragment extends Fragment { //implements HistoryRecyclerView
     private FragmentHistoryBinding binding;
     private RecyclerView recyclerView;
     private HistoryRecyclerViewAdapter adapter;
+    private SpotifyWrapper spotify;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        this.spotify = SpotifyWrapper.SpotifyWrapper();
+        this.spotify.pause();
+
 
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
         MutableLiveData<List<Song>> mSongsList = historyViewModel.getSongsListLiveData();
@@ -66,6 +72,18 @@ public class HistoryFragment extends Fragment { //implements HistoryRecyclerView
             recyclerView.setAdapter(adapter);
         }
     };
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        this.spotify.pause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        this.spotify.pause();
+    }
 
     @Override
     public void onDestroyView() {

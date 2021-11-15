@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.musicapp.R;
 import com.example.musicapp.models.Song;
+import com.example.musicapp.spotify.SpotifyWrapper;
 import com.example.musicapp.ui.settings.SettingsFragment;
 
 public class PlayerFragment extends Fragment implements View.OnClickListener {
@@ -24,8 +25,11 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
     private Button likeButton;
     private Button dislikeButton;
 
+    private SpotifyWrapper spotify;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        this.spotify = SpotifyWrapper.SpotifyWrapper();
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
         View v = inflater.inflate(R.layout.fragment_player, container, false);
@@ -34,7 +38,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
         playerText.setText(playerViewModel.getCategoryName());
 
         songNameText = v.findViewById(R.id.song_name_text);
-        Song s = playerViewModel.getNextSong();
+        Song s = playerViewModel.getCurrentSong();
         songNameText.setText(s.getName() + "\n" + s.getArtistName());
 
         likeButton = v.findViewById(R.id.like_button);
@@ -46,8 +50,28 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onStart(){
+        super.onStart();
+        this.spotify = SpotifyWrapper.SpotifyWrapper();
+        Song song = playerViewModel.getCurrentSong();
+        this.spotify.connectUserSpotify(getContext(), song.getUrl());
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
+        this.spotify.disconnectRemote();
     }
 
     @Override
@@ -57,6 +81,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
                 playerViewModel.likeCurrentSong();
                 Song song = playerViewModel.getNextSong();
                 songNameText.setText(song.getName() + "\n" + song.getArtistName());
+                this.spotify.connectUserSpotify(getContext(), song.getUrl());
                 break;
             case R.id.dislike_button:
                 playerViewModel.dislikeCurrentSong();

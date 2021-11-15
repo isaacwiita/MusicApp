@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.musicapp.R;
 import com.example.musicapp.database.FirebaseReadWrite;
+import com.example.musicapp.spotify.SpotifyWrapper;
 
 public class ListenFragment extends Fragment {
 
@@ -25,6 +26,7 @@ public class ListenFragment extends Fragment {
     private Button testButton;
     private TextView testTextView;
     private ListenViewModel listenViewModel;
+    private SpotifyWrapper spotify;
 
     public static ListenFragment newInstance() {
         return new ListenFragment();
@@ -33,6 +35,8 @@ public class ListenFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        this.spotify = SpotifyWrapper.SpotifyWrapper();
+        this.spotify.pause();
         View v = inflater.inflate(R.layout.fragment_listen, container, false);
 
         testTextView = v.findViewById(R.id.test_text_view);
@@ -52,8 +56,24 @@ public class ListenFragment extends Fragment {
                 listenViewModel.incrementTestValue();
             }
         });
+        Log.d("SpotifyActivity", "ListenFragment OnCreateView");
         return v;
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        this.spotify.pause();
+        Log.d("SpotifyActivity", "ListenFragment OnStart");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        this.spotify.pause();
+        Log.d("SpotifyActivity", "ListenFragment OnResume");
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

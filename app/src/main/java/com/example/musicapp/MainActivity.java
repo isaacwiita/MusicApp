@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.musicapp.spotify.SpotifyWrapper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
@@ -16,6 +17,8 @@ import com.example.musicapp.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
 private ActivityMainBinding binding;
+
+    private SpotifyWrapper spotify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,8 @@ private ActivityMainBinding binding;
     protected void onStart() {
         super.onStart();
         Log.i("lifecycle method", "onStart has been called");
+//        this.spotify = SpotifyWrapper.SpotifyWrapper();
+//        this.spotify.connectUserSpotify(this);
     }
 
     @Override
@@ -59,12 +64,15 @@ private ActivityMainBinding binding;
     protected void onStop() {
         super.onStop();
         Log.i("lifecycle method", "onStop has been called");
+        //this.spotify.disconnectRemote();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.i("lifecycle method", "onDestroy has been called");
+        this.spotify.disconnectRemote();
+        Log.d("SpotifyActivity", "MainActivity OnDestroy");
     }
 
 }

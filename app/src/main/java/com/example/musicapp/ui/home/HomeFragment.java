@@ -1,6 +1,7 @@
 package com.example.musicapp.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.example.musicapp.R;
+import com.example.musicapp.spotify.SpotifyWrapper;
 import com.example.musicapp.ui.player.home.PlayerViewModel;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -27,8 +29,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Button button_sad;
     private Button button_workout;
 
+    private SpotifyWrapper spotify;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        this.spotify = SpotifyWrapper.SpotifyWrapper();
+        this.spotify.pause();
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         View v = inflater.inflate(R.layout.fragment_home, container, false);
@@ -57,18 +63,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                Navigation.findNavController(v).navigate(R.id.action_navigation_home_to_playerFragment);
 //            }
 //        });
-
+        Log.d("SpotifyActivity", "HomeFragment OnCreateView");
         return v;
     }
 
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
+        this.spotify.pause();
+        Log.d("SpotifyActivity", "HomeFragment OnDestroyView");
     }
 
     @Override
     public void onClick(View view) {
         PlayerViewModel.genreButtonId = view.getId();
         Navigation.findNavController(view).navigate(R.id.action_navigation_home_to_playerFragment);
+        Log.d("SpotifyActivity", "HomeFragment OnClick");
     }
 }

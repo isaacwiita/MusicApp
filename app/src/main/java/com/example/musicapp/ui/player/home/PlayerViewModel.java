@@ -28,12 +28,12 @@ public class PlayerViewModel extends ViewModel {
     public PlayerViewModel() {
         mDatabase = FirebaseReadWrite.FirebaseReadWrite();
         songs = new Stack<>();
-        songs.push(new Song("moon", "kanye west", "url"));
-        songs.push(new Song("ode to sleep", "twenty one pilots", "url"));
-        songs.push(new Song("send the fisherman", "caamp", "url"));
-        songs.push(new Song("brightside", "the lumineers", "url"));
-        songs.push(new Song("jail", "kanye west", "url"));
-        songs.push(new Song("donda chant", "kanye west", "url"));
+        songs.push(new Song("moon", "kanye west", "spotify:track:7CC6UbCs4iGsePSzFxYxNn"));
+        songs.push(new Song("ode to sleep", "twenty one pilots", "spotify:track:773xZHHSHJvC1z3AAtWgH6"));
+        songs.push(new Song("send the fisherman", "caamp", "spotify:track:7kfpyjz5awLGwUCrMiODWw"));
+        songs.push(new Song("brightside", "the lumineers", "spotify:track:1TX0ImiGMYiikRash29a2b"));
+        songs.push(new Song("jail", "kanye west", "spotify:track:6d8HN8MqqbqrEUI2bvx0aG"));
+        songs.push(new Song("donda chant", "kanye west", "spotify:track:7eSSmgq26BXr7xay3WKjfi"));
         currentSong = songs.pop();
     }
 
@@ -44,15 +44,19 @@ public class PlayerViewModel extends ViewModel {
             return currentSong;
         }
         else {
-            songs.push(new Song("moon", "kanye west", "url"));
-            songs.push(new Song("ode to sleep", "twenty one pilots", "url"));
-            songs.push(new Song("send the fisherman", "caamp", "url"));
-            songs.push(new Song("brightside", "the lumineers", "url"));
-            songs.push(new Song("jail", "kanye west", "url"));
-            songs.push(new Song("donda chant", "kanye west", "url"));
+            songs.push(new Song("moon", "kanye west", "spotify:track:7CC6UbCs4iGsePSzFxYxNn"));
+            songs.push(new Song("ode to sleep", "twenty one pilots", "spotify:track:773xZHHSHJvC1z3AAtWgH6"));
+            songs.push(new Song("send the fisherman", "caamp", "spotify:track:7kfpyjz5awLGwUCrMiODWw"));
+            songs.push(new Song("brightside", "the lumineers", "spotify:track:1TX0ImiGMYiikRash29a2b"));
+            songs.push(new Song("jail", "kanye west", "spotify:track:6d8HN8MqqbqrEUI2bvx0aG"));
+            songs.push(new Song("donda chant", "kanye west", "spotify:track:7eSSmgq26BXr7xay3WKjfi"));
             currentSong = songs.pop();
             return currentSong;
         }
+    }
+
+    public Song getCurrentSong(){
+        return this.currentSong;
     }
 
     public void likeCurrentSong() {
