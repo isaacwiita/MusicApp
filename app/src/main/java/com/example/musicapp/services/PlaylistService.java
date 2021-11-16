@@ -28,20 +28,20 @@ public class PlaylistService {
     }
 
     public void get(final VolleyCallBack callBack){
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(RAP_ENDPOINT, null, response -> {
-//            Gson gson = new Gson();
-//            //user = gson.fromJson(response.toString(), Song.class);
-//            Log.d("SpotifyActivity", response.toString());
-//            callBack.onSuccess();
-//        }, error -> get(() -> {} )) {
-//            @Override
-//            public Map<String, String> getHeaders() throws AuthFailureError {
-//                Map<String, String> headers = new HashMap<>();
-//                String auth = "Bearer " + token;
-//                headers.put("Authorization: ", auth);
-//                return headers;
-//            }
-//        };
-//        mqueue.add(jsonObjectRequest);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(RAP_ENDPOINT, null, response -> {
+            Gson gson = new Gson();
+            //user = gson.fromJson(response.toString(), Song.class);
+            Log.d("SpotifyActivity", response.toString());
+            callBack.onSuccess();
+        }, error -> get(() -> {} )) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String,String>();
+                String auth = "Bearer " + token;
+                headers.put("Authorization", auth);
+                return headers;
+            }
+        };
+        mqueue.add(jsonObjectRequest);
     }
 }
