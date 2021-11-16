@@ -94,8 +94,7 @@ public class SpotifyWrapper {
     }
 
     private void connected(String uri) {
-        mSpotifyAppRemote.getPlayerApi().play(uri).await();
-        mSpotifyAppRemote.getPlayerApi().setRepeat(Repeat.ALL).await();
+        mSpotifyAppRemote.getPlayerApi().play(uri);
 
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
