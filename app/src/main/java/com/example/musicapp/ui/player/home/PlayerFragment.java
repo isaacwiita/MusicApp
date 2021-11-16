@@ -168,8 +168,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                // TODO: change this to the actual token
-                params.put("Authorization", "Bearer " + "BQDYb2rsAQqWmxN55ep60zAwlIWddZ6_BBNcYombV8Vn1haoyO6uDmWkCm5i1WWtqIpzfvqSpVgyhZ8Hg1KUJXjE9INB5GN1BSPb6gJUY-y-ab4CgXBNn9EUcbwjZyjcXWeVWA8OYCGIv8bjNnZbMr8LWEYSI3G8JJlqs3xSj2dDpzFQV4fxaWn-sYYEQF0ljorWSMWbXP_VnkpW_SEgp28i6P8VDfqEZpjGmLrOV3NRxAnnrVWBU8S9");
+                params.put("Authorization", "Bearer " + spotify.getAccessToken());
                 return params;
             }
 

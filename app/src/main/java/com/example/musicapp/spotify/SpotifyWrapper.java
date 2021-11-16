@@ -32,8 +32,8 @@ public class SpotifyWrapper {
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private, streaming";
     private PlaylistService playlists;
     private RequestQueue queue = null;
-
     private int counter = 0;
+    public String spotifyUserId = null;
 
     private SpotifyWrapper(){
     }
@@ -141,7 +141,8 @@ public class SpotifyWrapper {
     }
 
     public String getAccessToken(){
-        return this.accessToken;
+//        return this.accessToken;
+        return "BQBRZdxBcBEbOKYGVXnJOMZEd4h50Z4Rf2SVEk1pen_bRsbakzWPBJga6uIOSqw70o4TfyeWkGX0w1JB626vkaH9wQCRJgFMoRUxjbkDOvYc0tr5ZvAm9i-rHjM1q4kUIqiS-gBUh6xDvYOIFy_tfOdUwxWKrVSox4z9RNZMZxD99XyP8bapbKvakjlRppb0LoWk3zAsK-pc4ZErOqxLeNugr7Bp9P0vdqGXeolax6qTTL5QA2pEYmEbeFY";
     }
 
 }

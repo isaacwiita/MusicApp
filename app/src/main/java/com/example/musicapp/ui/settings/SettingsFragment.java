@@ -96,11 +96,6 @@ public class SettingsFragment extends Fragment {
         mJsonResponse.observe(getViewLifecycleOwner(), jsonResponseObserver);
         populated = false;
 
-        // TODO: get spotify playlists here
-//        playlistList.add( new Playlist("rap", "url1"));
-//        playlistList.add( new Playlist("pop", "url2"));
-//        playlistList.add( new Playlist("bluegrass", "url3"));
-
         // empty, disabled list while loading
         List<Playlist> emptyPlaylistList = new ArrayList<>();
         emptyPlaylistList.add(new Playlist("loading...", ""));
@@ -122,7 +117,6 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                // TODO: what goes here ?
             }
         });
 
@@ -139,7 +133,7 @@ public class SettingsFragment extends Fragment {
 
     private void getSpotifyPlaylists(MutableLiveData<String> jsonResponse) {
         Log.i("apitest", "starting");
-        String userId = "6izgnv3xya6evl0r5ol49efre";
+        String userId = spotify.spotifyUserId;
         String url ="https://api.spotify.com/v1/users/" + userId + "/playlists";
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -160,8 +154,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                // TODO: change this to the actual token
-                params.put("Authorization", "Bearer " + "BQDAjeaH5ob-Khv5ji8YpWmajY-o1cdCv7ykPZt4bwZXG6Yo3zT2wV_YHdM5WAswM-Ij0pJhfuVzJ4aGme5fnB1pMNRureGjCtnFd7hyvSRkEbFgF3YNooIGN13snyLTb9i0-1KRTPQHRwLagypfxZG9MMGYMxvLsTjayq5ZnMkYziXqqC91qvsUFkGZqg");
+                params.put("Authorization", "Bearer " + spotify.getAccessToken());
                 return params;
             }
 
