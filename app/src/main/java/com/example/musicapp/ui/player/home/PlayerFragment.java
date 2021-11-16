@@ -13,12 +13,30 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.musicapp.LoginActivity;
 import com.example.musicapp.R;
+import com.example.musicapp.database.FirebaseReadWrite;
+import com.example.musicapp.models.Playlist;
 import com.example.musicapp.models.Song;
 import com.example.musicapp.spotify.SpotifyWrapper;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerFragment extends Fragment implements View.OnClickListener {
 
@@ -30,10 +48,15 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
     private Button playButton;
     private Button pauseButton;
     private Button spotifyButton;
+    private FirebaseReadWrite mDatabase;
+    private MutableLiveData<Playlist> mPlaylist;
 
     private SpotifyWrapper spotify;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mDatabase = FirebaseReadWrite.FirebaseReadWrite();
+        mPlaylist = new MutableLiveData<>();
+        mDatabase.getPlaylistOfUser(mPlaylist);
 
         this.spotify = SpotifyWrapper.SpotifyWrapper();
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
@@ -92,6 +115,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
         switch(view.getId()) {
             case R.id.like_button:
                 playerViewModel.likeCurrentSong();
+                addSongToPlaylist();
                 Song song = playerViewModel.getNextSong();
                 songNameText.setText(song.getName() + "\n" + song.getArtist());
                 this.spotify.connectUserSpotify(getContext(), song.getUrl());
@@ -116,4 +140,75 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+    private void addSongToPlaylist() {
+
+        String playlistId = mPlaylist.getValue().getUrl();
+        playlistId = playlistId.substring(playlistId.lastIndexOf(":") + 1);
+
+//        String playlistId = "59yfMBAMu4gP4dLA3rSy2r";
+        String url = "https://api.spotify.com/v1/playlists/" + playlistId + "/tracks";
+
+        url = url + "?uris=" + playerViewModel.getCurrentSong().getUrl();
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.i("apitest", "response: " + response);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("apitest", "error: " + error);
+            }
+        }) {
+
+            // bearer token
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                // TODO: change this to the actual token
+                params.put("Authorization", "Bearer " + "BQDYb2rsAQqWmxN55ep60zAwlIWddZ6_BBNcYombV8Vn1haoyO6uDmWkCm5i1WWtqIpzfvqSpVgyhZ8Hg1KUJXjE9INB5GN1BSPb6gJUY-y-ab4CgXBNn9EUcbwjZyjcXWeVWA8OYCGIv8bjNnZbMr8LWEYSI3G8JJlqs3xSj2dDpzFQV4fxaWn-sYYEQF0ljorWSMWbXP_VnkpW_SEgp28i6P8VDfqEZpjGmLrOV3NRxAnnrVWBU8S9");
+                return params;
+            }
+
+        };
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(request);
+
+
+
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, postUrl, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                Log.i("apitest", "response: " + response);
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.e("apitest", "error: " + error);
+//            }
+//        }) {
+//            // bearer token
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                Map<String, String> params = new HashMap<String, String>();
+//                params.put("Authorization", "Bearer " + "BQB0ODdLg_D49HviPZdxymSRAuq3NUmi9mFSO1atMh2GiC1xgQhyFfDb8fiEIqEgCESM6zx9pHJj2m2JYMCXBtK8bHc7BHxQr22n-fKTuCjT_ji-zUNPnfYGCreGRPANy9wiRluTBC2rHqnkGdc7gKClIYCcfoB_5X7JoKIeuIwPvXFNoPILur8XNT0v8jA4wd6Q64i2WZ_h_OchNXkf4yxZhPQ9HTqE");
+////                params.put("Authorization", "Bearer " + spotify.getAccessToken());
+//                return params;
+//            }
+//        };
+//
+//        RequestQueue queue = Volley.newRequestQueue(getContext());
+//        queue.add(jsonObjectRequest);
+
+    }
+
+//    Observer<Playlist> playlistObserver = new Observer<Playlist>() {
+//        @Override
+//        public void onChanged(Playlist playlist) {
+//        }
+//    };
+
 }

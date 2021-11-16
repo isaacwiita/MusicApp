@@ -139,4 +139,9 @@ public class SpotifyWrapper {
         this.accessToken = newAccessToken;
         Log.d("SpotifyActivity", "Access Token: " + this.accessToken);
     }
+
+    public String getAccessToken(){
+        return this.accessToken;
+    }
+
 }
