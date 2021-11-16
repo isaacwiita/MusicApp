@@ -5,6 +5,10 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.example.musicapp.services.PlaylistService;
+import com.example.musicapp.services.VolleyCallBack;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -25,11 +29,13 @@ public class SpotifyWrapper {
     private static final String REDIRECT_URI = "com.example.musicapp://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
     private String accessToken = "false";
+    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private, streaming";
+    private PlaylistService playlists;
+    private RequestQueue queue = null;
 
     private int counter = 0;
 
     private SpotifyWrapper(){
-
     }
 
     public static SpotifyWrapper SpotifyWrapper(){
@@ -46,6 +52,16 @@ public class SpotifyWrapper {
     public void connectUserSpotify(Context context, String uri){
         auth_lib_connection(context);
         auth_remote_connection(context, uri);
+        if (this.queue == null){
+            this.queue = Volley.newRequestQueue(context);
+        }
+        this.playlists = new PlaylistService(this.queue, 0, this.accessToken);
+        this.playlists.get(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                Log.e("SpotifyActivity", "ALL DONE!!!");
+            }
+        });
 
     }
 
@@ -54,7 +70,7 @@ public class SpotifyWrapper {
             AuthorizationRequest.Builder builder =
                     new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
 
-            builder.setScopes(new String[]{"streaming"});
+            builder.setScopes(new String[]{SCOPES});
             AuthorizationRequest request = builder.build();
 
             AuthorizationClient.openLoginActivity((Activity) context, REQUEST_CODE, request);
