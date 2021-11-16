@@ -139,7 +139,8 @@ public class SettingsFragment extends Fragment {
 
     private void getSpotifyPlaylists(MutableLiveData<String> jsonResponse) {
         Log.i("apitest", "starting");
-        String url ="https://api.spotify.com/v1/users/6izgnv3xya6evl0r5ol49efre/playlists";
+        String userId = "6izgnv3xya6evl0r5ol49efre";
+        String url ="https://api.spotify.com/v1/users/" + userId + "/playlists";
 
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
