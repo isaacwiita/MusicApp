@@ -36,9 +36,9 @@ public class PlaylistService {
         }, error -> get(() -> {} )) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<>();
+                Map<String, String> headers = new HashMap<String,String>();
                 String auth = "Bearer " + token;
-                headers.put("Authorization: ", auth);
+                headers.put("Authorization", auth);
                 return headers;
             }
         };
