@@ -59,6 +59,7 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
         mDatabase.getPlaylistOfUser(mPlaylist);
 
         this.spotify = SpotifyWrapper.SpotifyWrapper();
+        this.spotify.setQ(getContext());
         playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
 
         View v = inflater.inflate(R.layout.fragment_player, container, false);
@@ -127,9 +128,11 @@ public class PlayerFragment extends Fragment implements View.OnClickListener {
                 this.spotify.connectUserSpotify(getContext(), song1.getUrl());
                 break;
             case R.id.play_button:
+                this.spotify.resume();
                 Toast.makeText(this.getContext(), "play button", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.pause_button:
+                this.spotify.pause();
                 Toast.makeText(this.getContext(), "pause button", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.spotify_button:

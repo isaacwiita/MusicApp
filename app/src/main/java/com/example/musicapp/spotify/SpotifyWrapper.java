@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.musicapp.models.Song;
 import com.example.musicapp.services.PlaylistService;
 import com.example.musicapp.services.VolleyCallBack;
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -21,6 +22,8 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import java.util.Stack;
+
 public class SpotifyWrapper {
 
     private static SpotifyWrapper single_instance = null;
@@ -28,7 +31,8 @@ public class SpotifyWrapper {
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "com.example.musicapp://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
-    private String accessToken = "false";
+    private String accessToken = "BQD5S_E83oiJKe7qlpbwL8qegoJEIzf1CmtgCgBEHxtPF6eOtSf3rKmbTI7l82VYqSOVTyLsmrEXeJ42sMfOhoYJfXHPbbMJlyFK97JACaEfCMtCzBdO_LURYhB_b3bhD0LYlyvc1dQ0cXjRcg";
+    private boolean set = false;
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private, streaming";
     private PlaylistService playlists;
     private RequestQueue queue = null;
@@ -52,28 +56,24 @@ public class SpotifyWrapper {
     public void connectUserSpotify(Context context, String uri){
         auth_lib_connection(context);
         auth_remote_connection(context, uri);
+    }
+
+    public void setQ(Context context){
         if (this.queue == null){
             this.queue = Volley.newRequestQueue(context);
         }
-        this.playlists = new PlaylistService(this.queue, 0, this.accessToken);
-        this.playlists.get(new VolleyCallBack() {
-            @Override
-            public void onSuccess() {
-                Log.e("SpotifyActivity", "ALL DONE!!!");
-            }
-        });
-
     }
 
     private void auth_lib_connection(Context context){
-        if (this.accessToken.equals("false")) {
+        if (!this.set) {
             AuthorizationRequest.Builder builder =
                     new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
 
             builder.setScopes(new String[]{SCOPES});
             AuthorizationRequest request = builder.build();
-
+            AuthorizationClient.clearCookies(context);
             AuthorizationClient.openLoginActivity((Activity) context, REQUEST_CODE, request);
+            this.set = true;
         }
     }
 
@@ -135,6 +135,12 @@ public class SpotifyWrapper {
         }
     }
 
+    public void resume(){
+        if (this.mSpotifyAppRemote != null && this.mSpotifyAppRemote.isConnected()){
+            this.mSpotifyAppRemote.getPlayerApi().resume();
+        }
+    }
+
     public void setAccessToken(String newAccessToken){
         this.accessToken = newAccessToken;
         Log.d("SpotifyActivity", "Access Token: " + this.accessToken);
@@ -142,7 +148,17 @@ public class SpotifyWrapper {
 
     public String getAccessToken(){
 //        return this.accessToken;
-        return "BQBRZdxBcBEbOKYGVXnJOMZEd4h50Z4Rf2SVEk1pen_bRsbakzWPBJga6uIOSqw70o4TfyeWkGX0w1JB626vkaH9wQCRJgFMoRUxjbkDOvYc0tr5ZvAm9i-rHjM1q4kUIqiS-gBUh6xDvYOIFy_tfOdUwxWKrVSox4z9RNZMZxD99XyP8bapbKvakjlRppb0LoWk3zAsK-pc4ZErOqxLeNugr7Bp9P0vdqGXeolax6qTTL5QA2pEYmEbeFY";
+        return "BQD5S_E83oiJKe7qlpbwL8qegoJEIzf1CmtgCgBEHxtPF6eOtSf3rKmbTI7l82VYqSOVTyLsmrEXeJ42sMfOhoYJfXHPbbMJlyFK97JACaEfCMtCzBdO_LURYhB_b3bhD0LYlyvc1dQ0cXjRcg";
+    }
+
+    public void getSongs(int id){
+        this.playlists = new PlaylistService(this.queue, id, this.accessToken);
+        this.playlists.get(new VolleyCallBack() {
+            @Override
+            public void onSuccess() {
+                Log.e("SpotifyActivity", "ALL DONE!!!");
+            }
+        });
     }
 
 }
