@@ -31,9 +31,9 @@ public class SpotifyWrapper {
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "com.example.musicapp://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
-    private String accessToken = "BQD5S_E83oiJKe7qlpbwL8qegoJEIzf1CmtgCgBEHxtPF6eOtSf3rKmbTI7l82VYqSOVTyLsmrEXeJ42sMfOhoYJfXHPbbMJlyFK97JACaEfCMtCzBdO_LURYhB_b3bhD0LYlyvc1dQ0cXjRcg";
+    private String accessToken = "BQAElgYU0gAQNE9xtr3CNp19TvrkPR6xbmSZWldW54KsvjEj4eHRsErGGwpejkDoxltiduHqXlIOw5WxmaaK4jhElxMzxo5tttvX-HUVfebPlni_7WL9yY9MJcbn5b1qFR2anpkj-CkZUM5tbA";
     private boolean set = false;
-    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private, streaming";
+    private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private, streaming, playlist-modify-private, playlist-modify-public";
     private PlaylistService playlists;
     private RequestQueue queue = null;
     private int counter = 0;
@@ -147,8 +147,7 @@ public class SpotifyWrapper {
     }
 
     public String getAccessToken(){
-//        return this.accessToken;
-        return "BQD5S_E83oiJKe7qlpbwL8qegoJEIzf1CmtgCgBEHxtPF6eOtSf3rKmbTI7l82VYqSOVTyLsmrEXeJ42sMfOhoYJfXHPbbMJlyFK97JACaEfCMtCzBdO_LURYhB_b3bhD0LYlyvc1dQ0cXjRcg";
+        return this.accessToken;
     }
 
     public void getSongs(int id){
