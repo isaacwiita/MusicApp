@@ -43,7 +43,6 @@ public class PlaylistService {
     private RequestQueue mqueue;
     private int playlist_id;
     private String token;
-    private Stack<Song> songs = new Stack<>();
 
     public PlaylistService(RequestQueue rq, int id, String tok){
         this.mqueue = rq;
@@ -79,7 +78,6 @@ public class PlaylistService {
                 endpoint = RAP_ENDPOINT;
                 break;
         }
-        RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(endpoint, null, response -> {
             Iterator<String> keys = response.keys();
             String key = keys.next();
