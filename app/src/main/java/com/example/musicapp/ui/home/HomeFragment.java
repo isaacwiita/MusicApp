@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         this.spotify = SpotifyWrapper.SpotifyWrapper();
+        this.spotify.auth_lib_connection(getContext());
         this.spotify.pause();
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 

@@ -31,7 +31,7 @@ public class SpotifyWrapper {
     private static final int REQUEST_CODE = 1337;
     private static final String REDIRECT_URI = "com.example.musicapp://callback";
     private SpotifyAppRemote mSpotifyAppRemote;
-    private String accessToken = "BQAElgYU0gAQNE9xtr3CNp19TvrkPR6xbmSZWldW54KsvjEj4eHRsErGGwpejkDoxltiduHqXlIOw5WxmaaK4jhElxMzxo5tttvX-HUVfebPlni_7WL9yY9MJcbn5b1qFR2anpkj-CkZUM5tbA";
+    private String accessToken = "BQAMLPQwXc6RrofRGa6_-nM7DCgQYNRL4VNM6rOMW57XXPx0OJLJC9n3vR02jdkugJW2QEvCzYYxE_b2lUtAlhhPceXn420HDhXqeu4-74woyV3tJoL2Ncs9S4KdagM8EVjmBJUSqTa9gVYFVQ";
     private boolean set = false;
     private static final String SCOPES = "user-read-recently-played,user-library-modify,user-read-email,user-read-private, streaming, playlist-modify-private, playlist-modify-public";
     private PlaylistService playlists;
@@ -64,7 +64,7 @@ public class SpotifyWrapper {
         }
     }
 
-    private void auth_lib_connection(Context context){
+    public void auth_lib_connection(Context context){
         if (!this.set) {
             AuthorizationRequest.Builder builder =
                     new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);

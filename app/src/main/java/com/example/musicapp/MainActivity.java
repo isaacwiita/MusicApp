@@ -30,6 +30,7 @@ private ActivityMainBinding binding;
         Log.i("lifecycle method", "onCreate has been called");
 
         this.spotify = SpotifyWrapper.SpotifyWrapper();
+        //this.spotify.auth_lib_connection(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
